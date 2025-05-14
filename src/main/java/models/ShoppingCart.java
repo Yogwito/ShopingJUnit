@@ -3,7 +3,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
 package models;
-
+import Exceptions.ProductOutOfStockException;
 /**
  *
  * @author juans
@@ -22,8 +22,12 @@ public class ShoppingCart {
     }
 
     public boolean addProduct(Product product) {
+        if (product.getStock() == 0) {
+            throw new ProductOutOfStockException("El producto '" + product.getName() + "' no tiene stock disponible.");
+        }
         return products.add(product);
     }
+
 
     public boolean removeProduct(int productId) {
         Iterator<Product> iterator = products.iterator();
@@ -52,8 +56,7 @@ public class ShoppingCart {
 
     public void buy() {
         for (Product p : products) {
-            p.buy(1);  // Asume que se compra 1 unidad de cada producto
-        }
+            p.buy(1); }
         products.clear();
     }
 }
